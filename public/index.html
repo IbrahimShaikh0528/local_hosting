@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connected Devices</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #1b1a1a2c;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #2a7685;
+    }
+  </style>
+</head>
+<body>
+  <h1>Connected Devices</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>IP Address</th>
+      </tr>
+    </thead>
+    <tbody id="device-table">
+      <!-- Devices will be populated here -->
+    </tbody>
+  </table>
+
+  <script>
+    async function fetchDevices() {
+      try {
+        const response = await fetch('/devices');
+        const devices = await response.json();
+
+        const tableBody = document.getElementById('device-table');
+        tableBody.innerHTML = '';
+
+        devices.forEach(device => {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${device.name}</td><td>${device.ip}</td>`;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching devices:', error);
+      }
+    }
+
+    // Fetch devices on page load
+    fetchDevices();
+  </script>
+</body>
+</html>
